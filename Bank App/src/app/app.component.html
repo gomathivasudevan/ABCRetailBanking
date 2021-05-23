@@ -1,0 +1,35 @@
+<nb-layout>
+
+  <nb-layout-header fixed *ngIf="!router.url.includes('auth')">
+    <!-- Insert header here -->
+    <app-header></app-header>
+    <nb-user class="no-style" [nbContextMenu]="headeritems"
+    nbContextMenuTag="my-context-menu" onlyPicture>
+  </nb-user>
+  </nb-layout-header>
+  <nb-layout-header subheader>
+    <a href="#" (click)="toggle()"><i class="nb-menu"></i></a>
+  </nb-layout-header>
+
+  <!-- <nb-sidebar *ngIf="!router.url.includes('auth')">
+    <h5 style="font-size:2vw;"><b>Account</b></h5>
+    
+    <nb-menu style="font: size 2opx;;" [items]="mainList" class="my-css-class"></nb-menu>
+  </nb-sidebar> -->
+  <nb-layout-column>
+    <!-- <div class="container">
+      <div class="row">
+        <div class="col-md-12">
+          <app-account-balance></app-account-balance>
+        </div>
+      </div>
+    </div> -->
+
+    <router-outlet></router-outlet>
+  </nb-layout-column>
+
+  <nb-layout-footer fixed>
+    <!-- Insert footer here -->
+  </nb-layout-footer>
+
+</nb-layout>

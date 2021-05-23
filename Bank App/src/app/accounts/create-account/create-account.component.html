@@ -1,0 +1,105 @@
+<div class="container">
+    <div class="card bg-light">
+        <form [formGroup]="accountCreationForm" (ngSubmit)="createAccount()">
+            <div class="form-group input-group w-100 mb-0">
+                <p [ngClass]="{ 'has-error': isSubmitted && formControls.name.errors }">
+                    <input [(ngModel)]="fullNameVal" formControlName="name" class="form-control" placeholder="Full name"
+                        type="text">
+                </p>
+            </div>
+            <div *ngIf="isSubmitted && formControls.name.errors" class="help-block text-danger">
+                <div *ngIf="formControls.name.errors.required">*Name is required</div>
+            </div>
+            <div class="form-group input-group  w-100 mb-0">
+                <p [ngClass]="{ 'has-error': isSubmitted && formControls.email.errors }">
+                    <input [(ngModel)]="emailVal" formControlName="email" class="form-control"
+                        placeholder="Email address" type="email">
+                </p>
+            </div>
+            <div *ngIf="isSubmitted && formControls.email.errors" class="help-block text-danger">
+                <div *ngIf="formControls.email.errors.required">*Email is required</div>
+            </div>
+            <div class="form-group input-group">
+                <p [ngClass]="{ 'has-error': isSubmitted && formControls.phone.errors }">
+                    <input [(ngModel)]="phoneVal" formControlName="phone" class="form-control"
+                        placeholder="Phone number" type="text">
+                </p>
+                <div *ngIf="isSubmitted && formControls.phone.errors" class="help-block text-danger">
+                    <div *ngIf="formControls.phone.errors.required">*Phone number is required</div>
+                </div>
+            </div>
+            <div class="form-group input-group">
+                <select placeholder="Branch name" formControlName="branchname" class="form-control"
+                    [(ngModel)]="branchnameVal">
+                    <option *ngFor="let item of branchArray"> {{item.branchName}}</option>
+                </select>
+            </div>
+            <div class="form-group input-group">
+                <select placeholder="Account Type" formControlName="accounttype" class="form-control"
+                    [(ngModel)]="accounttypeVal">
+                    <option>Account Type</option>
+                    <option>Savings Bank Account</option>
+                    <option>Current bank Account</option>
+                    <option>Checking Account</option>
+                </select>
+            </div>
+            <div class="form-group input-group w-100 mb-0">
+                <p [ngClass]="{ 'has-error': isSubmitted && formControls.initialbalance.errors }">
+                    <input [(ngModel)]="initialbalanceVal" formControlName="initialbalance" class="form-control"
+                        placeholder="Initial Balance" type="input">
+                </p>
+            </div>
+            <div *ngIf="isSubmitted && formControls.initialbalance.errors" class="help-block text-danger">
+                <div *ngIf="formControls.initialbalance.errors.required">*Initial balance is required</div>
+            </div>
+            <div class="form-group input-group w-100 mb-0">
+                <p [ngClass]="{ 'has-error': isSubmitted && formControls.customerid.errors }">
+
+                    <button (click)="onLinkCustomer()" type="button" class="btn btn-primary"><i
+                            class="fa fa-user fa-sm"></i></button>
+                    <input [(ngModel)]="customerIdVal" formControlName="customerid" class="form-control"
+                        placeholder="customerid" type="input">
+                </p>
+            </div>
+            <div *ngIf="isSubmitted && formControls.customerid.errors" class="help-block text-danger">
+                <div *ngIf="formControls.customerid.errors.required">*User Id is required</div>
+            </div>
+
+            <div class="form-group input-group w-100 mb-0">
+                <input disabled [(ngModel)]="primaryaccountownerVal" formControlName="primaryaccountowner"
+                    class="form-control" placeholder="Primary Account Owner" type="text">
+            </div>
+
+            <div class="row">
+                <button type="submit" class="btn btn-primary"> Create Account </button> |
+                <button (click)="onCancel()" type="button" class="btn btn-danger">Cancel</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<div class="overlay" *ngIf="displayPopup">
+    <div class="popup">
+        <a class="close" (click)="displayPopup = false">&times;</a>
+        <input type="text" [(ngModel)]="filteredCustomerResult">
+        <table class="table table-lg">
+            <theader class="thead-dark">
+                <tr>
+                    <th scope="col">Customer Id</th>
+                    <th scope="col">Customer Name</th>
+                    <th scope="col">Action</th>
+                </tr>
+            </theader>
+            <tbody *ngFor="let item of customerArray | filter: filteredCustomerResult: 'customername'">
+                <tr>
+                    <td>{{item.customerid}}</td>
+                    <td>{{item.customername}}</td>
+                    <td>
+                        <input (click)="onSelectCustomer(item.customerid, item.customername)" type="radio"
+                            name="optradio">
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>

@@ -1,0 +1,51 @@
+<!-- ---------------------**********DASHBOARD PAGE*************------------- -->
+
+<div *ngIf="!isAdminLoggedIn && !loadUpdateAccountComponent" class="container" style="display: flex; height: 100px;">
+  <div style="width: 50%;">
+    <p style="font-size: 40px;"><b>Current Account Balance</b></p>
+    <br><br>
+    <p style="font-size: 40px;color: green;">
+      <b>{{activeUserObj?.initialbalance}}</b>
+    </p>
+    <br><br>
+    <p style="font-size: 30px;">Today is:
+      {{ currentDate | date:'dd-MM-yyyy' }}</p>
+      <br>
+    <button type="button" (click)="onUpdateAccount()" class="btn btn-primary mr-2">Update Account</button>
+  </div>
+  <div style="flex-grow: 1;">
+    <div><img class="absolute bottom-0 right-0" style="width:50vh;height:50vh"
+        src="https://amcham.az/uploads/event/0fa08933529b3702c4e9da8aa614ddfe.jpg?v=1618574175" /></div>
+
+  </div>
+</div>
+
+<div *ngIf="isAdminLoggedIn && activeUserObj != null" class="row">
+  <h2>Fund Transfer!</h2>
+  <div style="font-size: medium;" class="col-xs-12 col-sm-10 col-md-8 col-sm-offset-1 col-md-offset-2">
+    <div class="box1">
+      <span><b>Current Account Balance:</b>{{activeUserObj.initialbalance + ' Rs'}}</span>
+    </div>
+    <div class="box2">
+      <span><b>Account Number:</b>{{activeUserObj.accountno}}</span>
+    </div>
+  </div>
+</div>
+
+<app-add-user (addUserFormSubmitted)="onAddUserFormSubmitted()" *ngIf="loadAdduserComponent"></app-add-user>
+<app-create-account (createAccountFormSubmitted)="onCreteAccountFormSubmitted()" *ngIf="loadCreateAccountComponent">
+</app-create-account>
+<app-update-account [accountNo]="activeUserObj?.accountno" [accountBalance]="activeUserObj?.initialbalance"
+  [isAdminLoggedIn]="isAdminLoggedIn" (updateAccountFormSubmitted)="onUpdateAccountFormSubmitted()"
+  *ngIf="loadUpdateAccountComponent"></app-update-account>
+<app-search-user *ngIf="loadSearchUserComponent" (SearchUserFormSubmited)="onSearchUserFormSubmited($event)">
+</app-search-user>
+
+<div
+  *ngIf="!loadSearchUserComponent && !loadAdduserComponent && !loadCreateAccountComponent && !loadUpdateAccountComponent">
+  <button *ngIf="isAdminLoggedIn" type="button" (click)="onAddUser()" class="btn btn-primary mr-2">Add User</button>
+  <button *ngIf="isAdminLoggedIn" type="button" (click)="onCreateAccount()" class="btn btn-primary mr-2">Open New
+    Account</button>
+  <button *ngIf="isAdminLoggedIn" type="button" (click)="onUpdateAccount()" class="btn btn-primary mr-2">Update Account</button>
+  <button *ngIf="isAdminLoggedIn" (click)="onSearchUser()" class="btn btn-primary mr-2">Search User</button>
+</div>

@@ -1,0 +1,144 @@
+<div *ngIf="showFundTransferDiv" class="row">
+    <h2>Fund Transfer!</h2>
+    <div style="font-size: medium;" class="col-xs-12 col-sm-10 col-md-8 col-sm-offset-1 col-md-offset-2">
+        <div class="box1">
+            <span>{{accountBalance + ' Rs'}}</span>
+        </div>
+        <div class="box2">
+            <span>{{accountNo}}</span>
+        </div>
+        <div class="box2">
+            <button type="button" class="btn btn-primary" (click)="onSelectPayee()">Select Payee</button>
+        </div>
+        <table *ngIf="!ispayeeSelected"  class="table table-border table-stripped">
+            <tbody *ngFor="let item of payeeArray">
+                <tr>
+                    <td>
+                    <a (click)="onSelectedPayee(item.name,item.accountNumber)">
+                        <div class="box1">
+                            {{item.name}} 
+                        </div>
+                        <div class="box2">
+                            {{item.accountNumber}}
+                        </div>
+                    </a>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+
+        <form *ngIf="ispayeeSelected" (ngSubmit)="onSubmitFundTransfer()" #f="ngForm">
+            <div>
+                <div class="form-group">
+                    <label for="beneficiaryAccNo">Beneficiary Account Number</label>
+                    <input class="form-control"
+                        id="beneficiaryAccNo" 
+                        type="text" 
+                        [(ngModel)]="selectedAccountNo"
+                        name="beneficiaryAccNo"
+                        disabled
+                        >
+                </div>
+            
+                <div class="form-group">
+                    <label for="amount">Amount</label>
+                    <input class="form-control"
+                        id="amount" 
+                        type="number" 
+                        [(ngModel)]="amountToTransfer"
+                        name="amount"
+                        required
+                        #amount="ngModel">
+                    <span class="help-block" *ngIf="!amount.valid && amount.touched">Please enter amount to transfer!</span>
+                </div>
+
+                <div class="form-group">
+                    <label for="remarks">Remarks</label>
+                    <input class="form-control"
+                        id="remarks" 
+                        type="text" 
+                        >
+                </div>
+            </div>
+            <button 
+                type="submit" 
+                class="btn btn-success"
+                [disabled]="!f.valid">Pay</button> |
+            <button (click)="onCancelFundTransfer()" type="button" class="btn btn-danger">Cancel</button>
+        </form>
+    </div>
+</div>
+
+<div *ngIf="showUpdatePersonalDetailsDiv" class="row">
+    <h2>Update Personal Details!</h2>
+    <div style="font-size: medium;" class="col-md-12"></div>
+        <form (ngSubmit)="onSubmitPersonalDetails()" #personalDetailsForm="ngForm">
+            <div>
+                <div class="form-group">
+                    <label for="emailid">Email</label>
+                    <input style="width:200px;" class="form-control"
+                        id="emailid" 
+                        type="email" 
+                        [(ngModel)]="emailid"
+                        name="emailid"
+                        email
+                        #email=ngModel
+                        >
+                        <span class="help-block" *ngIf="!email.valid && email.touched">Please enter a valid email!</span>
+                </div>
+            
+                <div class="form-group">
+                    <label for="phone">Phone No</label>
+                    <input style="width:200px;" class="form-control"
+                        id="phone" 
+                        type="number" 
+                        [(ngModel)]="phone"
+                        name="phone"
+                        >
+                </div>
+            </div>
+            <button 
+                type="submit" 
+                class="btn btn-success"
+                [disabled]="!personalDetailsForm.valid">Update Personal Details</button> |
+                <button (click)="onCancelPersonalDetaisUpdate()" type="button" class="btn btn-danger">Cancel</button>
+        </form>
+    <div style="font-size: medium;" class="col-xs-12 col-sm-10 col-md-8 col-sm-offset-1 col-md-offset-2"></div>
+</div>
+
+<div *ngIf="showUpdateAccountBalanceDiv" class="row">
+    <h2>Update Account Balance!</h2>
+    <div style="font-size: medium;" class="col-md-12"></div>
+        <form (ngSubmit)="onSubmitAccountBalance()" #updateAccountBalanceForm="ngForm">
+            <div>
+                <div class="form-group">
+                    <label for="balance">Balance</label>
+                    <input style="width:200px;" class="form-control"
+                        id="balance" 
+                        type="number" 
+                        [(ngModel)]="balAmoFromUpAccBalDiv"
+                        name="balance"
+                        required
+                        #balance="ngModel"
+                        >
+                        <span class="help-block" *ngIf="!balance.valid && balance.touched">Please enter balance!</span>
+                </div>
+            </div>
+            <button 
+                type="submit" 
+                class="btn btn-success"
+                [disabled]="!updateAccountBalanceForm.valid">Update Account Balance</button> |
+                <button (click)="onCancelAccountBalanceUpdate()" type="button" class="btn btn-danger">Cancel</button>
+        </form>
+    <div style="font-size: medium;" class="col-xs-12 col-sm-10 col-md-8 col-sm-offset-1 col-md-offset-2"></div>
+</div>
+
+<div *ngIf="!showUpdatePersonalDetailsDiv && !showFundTransferDiv && !showUpdateAccountBalanceDiv" style="font-size: medium;" class="row">
+    <div class="col-md-12">
+        <span (click)="onBackClick()" style="cursor: pointer;">&larr;Go Back</span> | 
+        <button (click)="onFundTransferBtnClik()" *ngIf="!isAdminLoggedIn" type="button" class="btn btn-primary">Fund Transfer</button> | 
+        <button (click)="onUpdatepersonalDetailsBtnClik()" type="button" class="btn btn-primary">Update personal Details</button> | 
+        <button (click)="onUpdateAccountBalanceBtnClik()" *ngIf="isAdminLoggedIn" type="button" class="btn btn-primary">Update Account Balance</button>
+    </div>
+</div>
+

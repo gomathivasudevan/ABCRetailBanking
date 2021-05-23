@@ -1,0 +1,14 @@
+      <div id="main">
+        <div id="d1">
+          <ul class="nav navbar-nav">
+            <li *ngIf="!isAuthenticated"><a style="font-size: medium;" routerLink="/auth">Authenticate</a></li>
+          </ul>
+          <ul class="nav navbar-nav navbar-right">
+            <li *ngIf="isAuthenticated">
+              <button type="button" (click)="onLogout()" class="btn btn-danger mr-2">Logout</button>
+            </li>
+          </ul></div>
+        <div id="d2">
+          <span style="font-size: 20px;color: white;text-shadow: 1px 1px 8px black;">Welcome To ABC RETAIL BANKING !!</span>
+        </div>
+      </div>

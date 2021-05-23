@@ -1,0 +1,67 @@
+<div class="row">
+    <h2>Search User!</h2>
+    <div style="font-size: medium;" class="col-md-12"></div>
+        <form>
+            <div>
+                <div class="form-group">
+                    <label for="search">Search</label>
+                    <input style="width:200px;" class="form-control"
+                        id="search" 
+                        type="text" 
+                        [(ngModel)]="searchkey"
+                        name="search"
+                        required
+                        #search="ngModel">
+                    <span class="help-block" *ngIf="!search.valid && search.touched">Please enter a valid input!</span>
+                </div>
+            
+                <div class="form-group">
+                    <label for="phone">Search Option</label>
+                    <select style="width:200px;" required class="form-control" id="searchoption" name="searchoption" [(ngModel)]="searchOption" #searchoption="ngModel" placeholder="Search by options">
+                        <option>Search by options</option>
+                        <option>Account Name</option>
+                        <option>Account Number</option>
+                        <option>Client Name</option>
+                    </select>
+                    <span class="help-block" *ngIf="!searchoption.valid && searchoption.touched">Please enter a valid input!</span>
+                </div>
+            </div>
+            <button 
+                type="button" 
+                class="btn btn-success"
+                (click)="onSearch()"
+                [disabled]="!search.valid && search.touched && !searchoption.valid && searchoption.touched">Search</button> |
+                <button (click)="onCancel()" type="button" class="btn btn-danger">Cancel</button>
+        </form>
+    <div style="font-size: medium;" class="col-xs-12 col-sm-10 col-md-8 col-sm-offset-1 col-md-offset-2"></div>
+</div>
+
+<div *ngIf="displaySearchResult" class="row">
+    <table *ngIf="filteredResultArray.length > 0" class="table table-lg">
+        <thead class="thead-dark">
+            <tr>
+                <th scope="col">Primary Account Owner Name</th>
+                <th scope="col">Account Number</th>
+                <th scope="col">Account Type</th>
+                <th scope="col">Balance</th>
+                <th scope="col">Branch name</th>
+                <th scope="col">Email</th>
+                <th scope="col">Action</th>
+            </tr>
+        </thead>
+        <tbody *ngFor="let item of filteredResultArray">
+            <tr>
+                <td>{{item.primaryaccountowner}}</td>
+                <td>{{item.accountno}}</td>
+                <td>{{item.accounttype}}</td>
+                <td>{{item.initialbalance}}</td>
+                <td>{{item.branchname}}</td>
+                <th>{{item.email}}}</th>
+                <td>
+                    <input (click)="onSelectCustomer(item)" type="radio"
+                        name="optradio">
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>
